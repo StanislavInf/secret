@@ -15,29 +15,48 @@ people_count_for_prices = np.array([21251, 20516, 19727, 18898, 18046, 17183, 16
 frequencies = np.array([45, 42, 39, 36, 33, 30, 27, 24, 21])
 people_count_for_frequencies = np.array([16421, 16401, 16378, 16351, 16319, 16281, 16235, 16177, 16102])
 
+md = to_minutes("2:15")
+mp = 1.0
+mf = 33
+
+# строим нашу линейную модель
+X = np.array(
+    [[d, mp, mf] for d in durations] + [[md, p, mf] for p in prices] + [[md, mp, f] for f in frequencies]
+)
+Y = np.concatenate(
+    [people_count_for_durations, people_count_for_prices, people_count_for_frequencies]
+).reshape(-1, 1)
+linreg = linear_model.LinearRegression().fit(X, Y)
+print(linreg.coef_, linreg.intercept_)
+
+# строим графики
 fig, (ax1, ax2, ax3) = plt.subplots(nrows=3)
 
-# linreg1 = linear_model.LinearRegression().fit(durations.reshape(-1, 1), people_count_for_durations.reshape(-1, 1))
-
-ax1.bar(durations_str, people_count_for_durations)
+x = np.array([[durations[0], mp, mf], [durations[-1], mp, mf]])
+y = linreg.predict(x)
+ax1.plot(x[:, 0], y, label='Линейная модель', color='orange')
+ax1.scatter(durations, people_count_for_durations, label='Исходные данные')
 ax1.set_xlabel('Продолжительность поездки')
 ax1.set_ylabel('Пассажиропоток')
 ax1.set_ylim((10000, 22000))
+ax1.legend()
 
-# linreg2 = linear_model.LinearRegression().fit(prices.reshape(-1, 1), people_count_for_prices.reshape(-1, 1))
-
-ax2.bar(prices, people_count_for_prices)
+x = np.array([[md, prices[0], mf], [md, prices[-1], mf]])
+y = linreg.predict(x)
+ax2.plot(x[:, 1], y, label='Линейная модель', color='orange')
+ax2.scatter(prices, people_count_for_prices, label='Исходные данные')
 ax2.set_xlabel('Ценовой тариф')
 ax2.set_ylabel('Пассажиропоток')
 ax2.set_ylim((10000, 22000))
+ax2.legend()
 
-
-# linreg3 = linear_model.LinearRegression().fit(frequencies.reshape(-1, 1), people_count_for_frequencies.reshape(-1, 1))
-
-ax3.bar(frequencies, people_count_for_frequencies)
+x = np.array([[md, mp, frequencies[0]], [md, mp, frequencies[-1]]])
+y = linreg.predict(x)
+ax3.plot(x[:, 2], y, label='Линейная модель', color='orange')
+ax3.scatter(frequencies, people_count_for_frequencies, label='Исходные данные')
 ax3.set_xlabel('Частота сообщений, пар/сутки')
 ax3.set_ylabel('Пассажиропоток')
 ax3.set_ylim((10000, 22000))
-
+ax3.legend()
 
 plt.show()
