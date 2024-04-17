@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from typing import List, Tuple
 
 class TrainSimulation:
@@ -49,13 +50,39 @@ cycles = [
 t1 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles)
 t2 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles)
 
+time1 = []
+time2 = []
+rtime1 = []
+rtime2 = []
+
 print('      Train1                                   Train2')
 print('='*60)
-for i in range(10):
-    print(f'{i:4d}| ', end='')
+for i in range(100000):
+    # print(f'{i:4d}| ', end='')
 
     p, t, rt = t1.tuda_syuda1()
-    print(f'{p:6d} {t:5d} {rt:5d}', end='\t\t\t')
+    # print(f'{p:6d} {t:5d} {rt:5d}', end='\t\t\t')
+    time1.append(t)
+    rtime1.append(rt)
 
     p, t, rt = t2.tuda_syuda2()
-    print(f'{p:6d} {t:5d} {rt:5d}')
+    # print(f'{p:6d} {t:5d} {rt:5d}')
+    time2.append(t)
+    rtime2.append(rt)
+
+fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(8, 8))
+
+ax1.plot(time1, label='Ремонт при достижении определённого пробега в км')
+ax1.plot(time2, label='Ремонт при достижении определённого пробега в днях')
+ax1.set_xlabel('Количество проездов Москва - Санкт-Петербург - Москва')
+ax1.set_ylabel('Часы за проезд + ремонт')
+ax1.grid(); ax1.legend()
+
+ax2.plot(rtime1, label='Ремонт при достижении определённого пробега в км')
+ax2.plot(rtime2, label='Ремонт при достижении определённого пробега в днях')
+ax2.set_xlabel('Количество проездов Москва - Санкт-Петербург - Москва')
+ax2.set_ylabel('Часы за ремонт')
+ax2.grid(); ax2.legend()
+
+plt.savefig('plot1.png')
+plt.show()
