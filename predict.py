@@ -30,7 +30,7 @@ linreg = linear_model.LinearRegression().fit(X, Y)
 print(linreg.coef_, linreg.intercept_)
 
 # строим графики
-fig, (ax1, ax2, ax3) = plt.subplots(nrows=3)
+fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, figsize=(8, 9))
 
 x = np.array([[durations[0], mp, mf], [durations[-1], mp, mf]])
 y = linreg.predict(x)
@@ -59,4 +59,5 @@ ax3.set_ylabel('Пассажиропоток')
 ax3.set_ylim((10000, 22000))
 ax3.legend()
 
+plt.savefig('linear_model_results.png')
 plt.show()

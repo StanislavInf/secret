@@ -3,10 +3,11 @@ from typing import List, Tuple
 
 class TrainSimulation:
 
-    def __init__(self, tuda_syuda_distance: int, time_per_tuda_syuda: int, cycles: List[Tuple[str, int, int, int]]):
+    def __init__(self, tuda_syuda_distance: int, time_per_tuda_syuda: int, cycles: List[Tuple[str, int, int, int]], hours_per_day: int = 0):
         self.tuda_syuda_distance = tuda_syuda_distance
         self.time_per_tuda_syuda = time_per_tuda_syuda
         self.cycles = cycles
+        self.hours_per_day = hours_per_day
 
         self.probeg = 0
         self.t = 0
@@ -15,8 +16,9 @@ class TrainSimulation:
     def tuda_syuda1(self) -> Tuple[int, int, int]:
         prev_probeg = self.probeg
         self.probeg += self.tuda_syuda_distance
+        self._wait_till_morning_if_needed()
         self.t += self.time_per_tuda_syuda
-        for cycle in reversed(cycles):
+        for cycle in reversed(self.cycles):
             if self.probeg % cycle[1] < prev_probeg % cycle[1]:
                 self.t += cycle[3]
                 self.remont_t += cycle[3]
@@ -26,13 +28,18 @@ class TrainSimulation:
     def tuda_syuda2(self) -> Tuple[int, int, int]:
         prev_t = self.t
         self.probeg += self.tuda_syuda_distance
+        self._wait_till_morning_if_needed()
         self.t += self.time_per_tuda_syuda
-        for cycle in reversed(cycles):
+        for cycle in reversed(self.cycles):
             if self.t % cycle[2] < prev_t % cycle[2]:
                 self.t += cycle[3]
                 self.remont_t += cycle[3]
                 break
         return self.probeg, self.t, self.remont_t
+
+    def _wait_till_morning_if_needed(self):
+        if self.hours_per_day != 0 and (self.t + self.time_per_tuda_syuda) % self.hours_per_day < self.t % self.hours_per_day:
+            self.t += self.hours_per_day - self.t % self.hours_per_day
 
 tuda_syuda_distance = 1400
 time_per_tuda_syuda = 7
@@ -46,9 +53,10 @@ cycles = [
     ("IS600", 1200000, 630*24,  192),
     ("IS700", 2400000, 1260*24, 288)
 ]
+hours_per_day = 0
 
-t1 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles)
-t2 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles)
+t1 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles, hours_per_day)
+t2 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles, hours_per_day)
 
 time1 = []
 time2 = []
@@ -58,6 +66,7 @@ rtime2 = []
 print('      Train1                                   Train2')
 print('='*60)
 for i in range(100000):
+# for i in range(100):
     # print(f'{i:4d}| ', end='')
 
     p, t, rt = t1.tuda_syuda1()
