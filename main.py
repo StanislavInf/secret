@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import math
+import numpy as np
 from typing import List, Tuple
 
 class TrainSimulation:
@@ -72,20 +74,54 @@ cycles = [
     ("IS700", 2400000, 1260*24, 288)
 ]
 
-train = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles)
-train.state = 'run'
-last_state = ''
+class VSM_Station:
 
-print('      Train simulation')
-print('='*80)
-# for i in range(100000):
-for i in range(1000):
+    def __init__(self, num_trains: int, max_repair_at_time: int, train_capacity: int, options):
+        self.trains = [TrainSimulation(**options) for _ in range(num_trains)]
+        self.max_repair_at_time = max_repair_at_time
+        self.hour = 0
+        self.passenger_distribution = np.ones(24)/24
+        self.train_capacity = train_capacity
 
-    if last_state != train.state:
-        print(f'{i:4d}| ', end='')
-        train.print()
-        last_state = train.state
+    def step_hour(self, num_passengers: int):
+        num_repairing_ = 0
 
-    train.step()
-    if train.state == 'wait':
-        train.state = 'run'
+        h = self.hour % 24
+        passengers = int(self.passenger_distribution[h]*num_passengers)
+        num_needed_trains = (passengers + self.train_capacity - 1) // self.train_capacity
+
+        for i, train in enumerate(self.trains):
+
+            # не чиним поезда, которые не влезают в ремонтный цех
+            if train.state == 'repair' and num_repairing_ >= self.max_repair_at_time:
+                continue
+
+            train.step()
+
+            if train.state == 'repair':
+                num_repairing_ += 1
+            elif train.state == 'wait' and num_needed_trains > 0:
+                # print(i)
+                train.state = 'run'
+                num_needed_trains -= 1
+        if num_needed_trains != 0:
+            print('Passengers left!')
+
+        self.hour += 1
+        num_repairin = sum([1 for train in self.trains if train.state=='repair'])
+        num_waitin = sum([1 for train in self.trains if train.state=='wait'])
+        num_runin = sum([1 for train in self.trains if train.state=='run'])
+        return num_runin, num_waitin, num_repairin
+
+vsm = VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, options={
+    'tuda_syuda_distance': 1400,
+    'time_per_tuda_syuda': 7,
+    'cycles': cycles
+})
+
+print('  Num running        Num waiting        Num repairing')
+for i in range(960):
+    run, wait, repair = vsm.step_hour(num_passengers=16319)
+
+    if i % 10 == 0:
+        print(f'{vsm.hour:4d} {run:5d}              {wait:5d}               {repair:5d}')
