@@ -1,8 +1,11 @@
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import math
 import numpy as np
 import pandas as pd
 from typing import List, Tuple
+
+origin_time = datetime.strptime('2024-04-17', '%Y-%m-%d')
 
 class TrainSimulation:
 
@@ -117,10 +120,10 @@ class VSM_Station:
         self.history.append((num_runin, num_waitin, num_repairin))
         return num_runin, num_waitin, num_repairin
 
-    def save_history(self, path: str):
+    def save_history(self, path: str, starttime):
         hist = np.array(self.history)
         df = pd.DataFrame({
-            'hour': np.arange(self.hour),
+            'time': [starttime+timedelta(hours=h) for h in range(self.hour)],
             'running': hist[:, 0],
             'waiting': hist[:, 1],
             'repairing': hist[:, 2]
@@ -134,10 +137,28 @@ vsm = VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, optio
     'cycles': cycles
 })
 
+passengers_per_month = [
+    16319,                      # jan
+    16319,                      # feb
+    16319,                      # mar
+    16319,                      # apr
+    26319,                      # may
+    16319,                      # jun
+    16319,                      # jul
+    16319,                      # aug
+    16319,                      # sep
+    16319,                      # oct
+    16319,                      # nov
+    16319                       # dec
+]
+
 print('  Num running        Num waiting        Num repairing')
 for i in range(9600):
-    run, wait, repair = vsm.step_hour(num_passengers=16319)
+    curr_month = (origin_time + timedelta(hours=vsm.hour)).month
+
+    run, wait, repair = vsm.step_hour(num_passengers=passengers_per_month[curr_month-1])
 
     if i % 1 == 0:
         print(f'{vsm.hour:4d} {run:5d}              {wait:5d}               {repair:5d}')
-vsm.save_history('history.xlsx')
+
+vsm.save_history('history.xlsx', origin_time)
