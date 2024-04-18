@@ -3,43 +3,61 @@ from typing import List, Tuple
 
 class TrainSimulation:
 
-    def __init__(self, tuda_syuda_distance: int, time_per_tuda_syuda: int, cycles: List[Tuple[str, int, int, int]], hours_per_day: int = 0):
+    def __init__(self, tuda_syuda_distance: int, time_per_tuda_syuda: int, cycles: List[Tuple[str, int, int, int]]):
         self.tuda_syuda_distance = tuda_syuda_distance
         self.time_per_tuda_syuda = time_per_tuda_syuda
         self.cycles = cycles
-        self.hours_per_day = hours_per_day
 
-        self.probeg = 0
-        self.t = 0
-        self.remont_t = 0
+        self.probegs = [0 for _ in cycles]
+        self.ts = [0 for _ in cycles]
+        self.repair_t = 0
+        self.run_t = 0
+        self.state = 'wait'
+        self.repair_cycle_name = ''
 
-    def tuda_syuda1(self) -> Tuple[int, int, int]:
-        prev_probeg = self.probeg
-        self.probeg += self.tuda_syuda_distance
-        self._wait_till_morning_if_needed()
-        self.t += self.time_per_tuda_syuda
-        for cycle in reversed(self.cycles):
-            if self.probeg % cycle[1] < prev_probeg % cycle[1]:
-                self.t += cycle[3]
-                self.remont_t += cycle[3]
-                break
-        return self.probeg, self.t, self.remont_t
+    def step(self):
+        if self.state != 'repair':
+            for i in range(len(self.ts)):
+                self.ts[i] += 1
 
-    def tuda_syuda2(self) -> Tuple[int, int, int]:
-        prev_t = self.t
-        self.probeg += self.tuda_syuda_distance
-        self._wait_till_morning_if_needed()
-        self.t += self.time_per_tuda_syuda
-        for cycle in reversed(self.cycles):
-            if self.t % cycle[2] < prev_t % cycle[2]:
-                self.t += cycle[3]
-                self.remont_t += cycle[3]
-                break
-        return self.probeg, self.t, self.remont_t
+        if self.state == 'run':
+            self.run_t += 1
+            if self.run_t == self.time_per_tuda_syuda:
+                self.state = 'wait'
+                self.run_t = 0
+                for i in range(len(self.probegs)):
+                    self.probegs[i] += self.tuda_syuda_distance
 
-    def _wait_till_morning_if_needed(self):
-        if self.hours_per_day != 0 and (self.t + self.time_per_tuda_syuda) % self.hours_per_day < self.t % self.hours_per_day:
-            self.t += self.hours_per_day - self.t % self.hours_per_day
+                for i in reversed(range(len(self.cycles))):
+                    cycle = self.cycles[i]
+                    # ставим на ремонт если доза 90%
+                    p = cycle[1] - cycle[1] // 10
+                    t = cycle[2] - cycle[2] // 10
+                    if self.probegs[i] >= p or self.ts[i] >= t:
+                        self.state = 'repair'
+                        self.repair_t = cycle[3]
+                        self.repair_cycle_name = cycle[0]
+
+                        for j in range(i+1):
+                            self.ts[j] = 0
+                            self.probegs[j] = 0
+                        break
+
+        elif self.state == 'repair':
+            self.repair_t -= 1
+            if self.repair_t == 0:
+                self.state = 'wait'
+
+        return self.state
+
+    def print(self):
+        print(self.state, self.probegs, self.ts, end=' ')
+        if self.state == 'wait':
+            print()
+        elif self.state == 'repair':
+            print(f'repair={self.repair_t} cycle={self.repair_cycle_name}')
+        elif self.state == 'run':
+            print(f'run={self.run_t}')
 
 tuda_syuda_distance = 1400
 time_per_tuda_syuda = 7
@@ -53,45 +71,21 @@ cycles = [
     ("IS600", 1200000, 630*24,  192),
     ("IS700", 2400000, 1260*24, 288)
 ]
-hours_per_day = 0
 
-t1 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles, hours_per_day)
-t2 = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles, hours_per_day)
+train = TrainSimulation(tuda_syuda_distance, time_per_tuda_syuda, cycles)
+train.state = 'run'
+last_state = ''
 
-time1 = []
-time2 = []
-rtime1 = []
-rtime2 = []
+print('      Train simulation')
+print('='*80)
+# for i in range(100000):
+for i in range(1000):
 
-print('      Train1                                   Train2')
-print('='*60)
-for i in range(100000):
-# for i in range(100):
-    # print(f'{i:4d}| ', end='')
+    if last_state != train.state:
+        print(f'{i:4d}| ', end='')
+        train.print()
+        last_state = train.state
 
-    p, t, rt = t1.tuda_syuda1()
-    # print(f'{p:6d} {t:5d} {rt:5d}', end='\t\t\t')
-    time1.append(t)
-    rtime1.append(rt)
-
-    p, t, rt = t2.tuda_syuda2()
-    # print(f'{p:6d} {t:5d} {rt:5d}')
-    time2.append(t)
-    rtime2.append(rt)
-
-fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(8, 8))
-
-ax1.plot(time1, label='Ремонт при достижении определённого пробега в км')
-ax1.plot(time2, label='Ремонт при достижении определённого пробега в днях')
-ax1.set_xlabel('Количество проездов Москва - Санкт-Петербург - Москва')
-ax1.set_ylabel('Часы за проезд + ремонт')
-ax1.grid(); ax1.legend()
-
-ax2.plot(rtime1, label='Ремонт при достижении определённого пробега в км')
-ax2.plot(rtime2, label='Ремонт при достижении определённого пробега в днях')
-ax2.set_xlabel('Количество проездов Москва - Санкт-Петербург - Москва')
-ax2.set_ylabel('Часы за ремонт')
-ax2.grid(); ax2.legend()
-
-plt.savefig('plot1.png')
-plt.show()
+    train.step()
+    if train.state == 'wait':
+        train.state = 'run'
