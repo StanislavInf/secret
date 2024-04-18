@@ -80,16 +80,23 @@ cycles = [
 
 class VSM_Station:
 
-    def __init__(self, num_trains: int, max_repair_at_time: int, train_capacity: int, options):
+    def __init__(self, num_trains: int, max_repair_at_time: int, train_capacity: int, passenger_distribution_per_hour, passengers_for_months, options):
         self.trains = [TrainSimulation(**options) for _ in range(num_trains)]
         self.max_repair_at_time = max_repair_at_time
         self.hour = 0
-        self.passenger_distribution = np.ones(24)/24
+        self.passenger_distribution = passenger_distribution_per_hour
+        self.passengers_for_months = passengers_for_months
         self.train_capacity = train_capacity
 
         self.history = []
 
-    def step_hour(self, num_passengers: int):
+    def current_date(self):
+        return origin_time + timedelta(hours=self.hour)
+
+    def step_hour(self):
+        curr_month = self.current_date().month
+        num_passengers = self.passengers_for_months[curr_month-1]
+
         num_repairing_ = 0
 
         h = self.hour % 24
@@ -120,6 +127,16 @@ class VSM_Station:
         self.history.append((num_runin, num_waitin, num_repairin))
         return num_runin, num_waitin, num_repairin
 
+    def jump_to_date(self, date):
+        curr_date = self.current_date()
+        if curr_date > date:
+            raise ValueError('Нельзя отмотать время назад')
+
+        hours = (date - curr_date).total_seconds()//3600
+        hours = int(hours)
+        for _ in range(hours):
+            self.step_hour()
+
     def save_history(self, path: str, starttime):
         hist = np.array(self.history)
         df = pd.DataFrame({
@@ -131,13 +148,9 @@ class VSM_Station:
         df.to_excel(path)
         print(f'Saved train history to {path}')
 
-vsm = VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, options={
-    'tuda_syuda_distance': 1400,
-    'tuda_syuda_hours': 7,
-    'cycles': cycles
-})
+passenger_distribution_per_hour = np.ones(24)/24
 
-passengers_per_month = [
+passengers_for_months = [
     16319,                      # jan
     16319,                      # feb
     16319,                      # mar
@@ -152,11 +165,19 @@ passengers_per_month = [
     16319                       # dec
 ]
 
+vsm = VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, passenger_distribution_per_hour=passenger_distribution_per_hour, passengers_for_months=passengers_for_months, options={
+    'tuda_syuda_distance': 1400,
+    'tuda_syuda_hours': 7,
+    'cycles': cycles
+})
+
+vsm.jump_to_date(datetime.strptime('2024-05-17', '%Y-%m-%d'))
+
 print('  Num running        Num waiting        Num repairing')
 for i in range(9600):
-    curr_month = (origin_time + timedelta(hours=vsm.hour)).month
 
-    run, wait, repair = vsm.step_hour(num_passengers=passengers_per_month[curr_month-1])
+
+    run, wait, repair = vsm.step_hour()
 
     if i % 1 == 0:
         print(f'{vsm.hour:4d} {run:5d}              {wait:5d}               {repair:5d}')
