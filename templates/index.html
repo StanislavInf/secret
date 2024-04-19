@@ -76,13 +76,13 @@
       </div>
 
       <div class="charts">
-	 <div class="graph-container">
+	 <div class="graph-container" id="graph1-con">
 	    <canvas id="graph1"></canvas>
 	 </div>
-	 <div class="graph-container">
+	 <div class="graph-container" id="graph2-con">
 	    <canvas id="graph2"></canvas>
 	 </div>
-	 <div class="graph-container">
+	 <div class="graph-container" id="graph3-con">
 	    <canvas id="graph3"></canvas>
 	 </div>
       </div>
@@ -137,7 +137,7 @@
    </script>
 
    <script>
-      function renderChart(labels, datasets, element_id, back_col, back_col_border) {
+     function renderChart(labels, datasets, element_id, el_title, back_col, back_col_border) {
 	 console.log(datasets)
 	 const data = {
 	    labels: labels,
@@ -154,7 +154,13 @@
 	       display: false
 	    },
 	    data: data,
-	    options: {
+	     options: {
+		 plugins: {
+		     title: {
+			 display: true,
+			 text: el_title,
+		     },
+		 },
 	       scales: {
 		  y: {
 		     color: '#fff',
@@ -179,13 +185,12 @@
 	       }
 	    },
 	 };
+
+	document.getElementById(element_id).remove();
+	document.getElementById(element_id + '-con').innerHTML = '<canvas id="' + element_id + '"><canvas>';
 	 var ctx = document.getElementById(element_id).getContext("2d");
 	 var line = new Chart(ctx, config);
       }
-
-      renderChart(lab, lab, "graph1", back_col, back_col_border)
-      renderChart(lab, lab, "graph2", back_col, back_col_border)
-      renderChart(lab, lab, "graph3", back_col, back_col_border)
    </script>
 
    <script>
@@ -236,7 +241,15 @@
 	 ) + "</h2>"
       }
 
-
+	  (() => {
+	const sock = io();
+	sock.on('my_response', data => {
+			set = data['data']
+	    renderChart(lab, set['0'], "graph1", "Количество поездов в простое", back_col, back_col_border);
+	    renderChart(lab, set['1'], "graph2", "Количество поездов в пути", back_col, back_col_border);
+	    renderChart(lab, set['2'], "graph3", "Количество поездов в ремонте", back_col, back_col_border);
+	});
+      })();
 
    </script>
 

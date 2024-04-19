@@ -37,9 +37,18 @@ def handle_slider_change3(data):
 @socketio.on('date_change')
 def handle_date_change(date):
     print("Выполняется расчёт")
-    vsm.jump_to_date(datetime.strptime(date['value'], '%d.%m.%Y'))
+    try:
+        vsm.jump_to_date(datetime.strptime(date['value'], '%d.%m.%Y'))
+    except:
+        print('Неправильная дата!')
 
+    ridin, waitin, repairin = vsm.step_one_day()
 
+    charts = {0:ridin,
+              1:waitin,
+              2:repairin}
+
+    socketio.emit('my_response', { 'data': charts})
 
 def gen():
     while(True):
