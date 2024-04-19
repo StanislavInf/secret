@@ -4,12 +4,15 @@ import time
 import random
 from flask import Flask, render_template, Response, request
 from flask_socketio import SocketIO, emit
-
+from threading import Lock
 from train import default_vsm
 
 vsm = default_vsm()
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+thread = None
+thread_lock = Lock()
 
 slider =  {1:0,
            2:0,
