@@ -66,6 +66,7 @@ class TrainSimulation:
         elif self.state == 'run':
             print(f'run={self.run_t}')
 
+
 tuda_syuda_distance = 1400
 tuda_syuda_hours = 7
 cycles = [
@@ -169,6 +170,7 @@ class VSM_Station:
             repairing.append(re)
         return riding, waiting, repairing
 
+
 # passenger_distribution_per_hour = np.ones(24)/24
 passenger_distribution_per_hour = np.array([0, 3, 3, 3, 6.25, 5, 6.25, 5, 3.75, 3.75, 5, 6.25, 5, 6.25, 5, 3.75, 3.75, 3.75, 5, 6.25, 5, 3, 3, 0]) / 100
 
@@ -199,7 +201,7 @@ passengers_for_months = np.array([1916666,
  1937706,
  1984162]) / 30
 
-def default_vsm(num_trains=64, train_capacity=450):
+def default_vsm(num_trains=15, train_capacity=450):
     return VSM_Station(num_trains=num_trains, max_repair_at_time=8, train_capacity=train_capacity, passenger_distribution_per_hour=passenger_distribution_per_hour, passengers_for_months=passengers_for_months, options={
         'tuda_syuda_distance': 1400,
         'tuda_syuda_hours': 7,
