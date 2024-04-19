@@ -168,7 +168,8 @@ class VSM_Station:
             repairing.append(re)
         return riding, waiting, repairing
 
-passenger_distribution_per_hour = np.ones(24)/24
+# passenger_distribution_per_hour = np.ones(24)/24
+passenger_distribution_per_hour = np.array([0, 3, 3, 3, 6.25, 5, 6.25, 5, 3.75, 3.75, 5, 6.25, 5, 6.25, 5, 3.75, 3.75, 3.75, 5, 6.25, 5, 3, 3, 0]) / 100
 
 passengers_for_months = [
     16319,                      # jan
