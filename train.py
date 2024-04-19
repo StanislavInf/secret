@@ -132,11 +132,19 @@ class VSM_Station:
         if curr_date > date:
             raise ValueError('Нельзя отмотать время назад')
 
+        riding = []
+        waiting = []
+        repairing = []
+
         hours = (date - curr_date).total_seconds()//3600
         hours = int(hours)
         print(f'Jumping {hours} hours forward...')
         for _ in range(hours):
-            self.step_hour()
+            ri, wa, re = self.step_hour()
+            riding.append(ri)
+            waiting.append(wa)
+            repairing.append(re)
+        return riding, waiting, repairing
 
     def save_history(self, path: str, starttime):
         hist = np.array(self.history)
@@ -166,8 +174,8 @@ passengers_for_months = [
     16319                       # dec
 ]
 
-def default_vsm():
-    return VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, passenger_distribution_per_hour=passenger_distribution_per_hour, passengers_for_months=passengers_for_months, options={
+def default_vsm(num_trains=33, train_capacity=450):
+    return VSM_Station(num_trains=num_trains, max_repair_at_time=8, train_capacity=train_capacity, passenger_distribution_per_hour=passenger_distribution_per_hour, passengers_for_months=passengers_for_months, options={
         'tuda_syuda_distance': 1400,
         'tuda_syuda_hours': 7,
         'cycles': cycles
