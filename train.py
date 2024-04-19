@@ -157,6 +157,17 @@ class VSM_Station:
         df.to_excel(path)
         print(f'Saved train history to {path}')
 
+    def step_one_day(self):
+        riding = []
+        waiting = []
+        repairing = []
+        for _ in range(24):
+            ri, wa, re = self.step_hour()
+            riding.append(ri)
+            waiting.append(wa)
+            repairing.append(re)
+        return riding, waiting, repairing
+
 passenger_distribution_per_hour = np.ones(24)/24
 
 passengers_for_months = [
