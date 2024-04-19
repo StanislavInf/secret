@@ -1,0 +1,44 @@
+#calendar2 {
+    font: monospace;
+    height: 90%;
+    width: 100%;
+    line-height: 2.5em;
+    font-size: 14px;
+    text-align: center;
+    border: solid;
+    border-width: 2px;
+}
+
+#calendar2 thead tr:last-child {
+    font-size: medium;
+    color: rgb(255, 255, 255);
+}
+
+#calendar2 thead tr:nth-child(1) td:nth-child(2) {
+    color: rgb(255, 255, 255);
+}
+
+#calendar2 thead tr:nth-child(1) td:nth-child(1):hover,
+#calendar2 thead tr:nth-child(1) td:nth-child(3):hover {
+    cursor: pointer;
+}
+
+#calendar2 tbody td {
+    color: rgb(168, 177, 185);
+    border: solid;
+    border-width: 0.5px;
+}
+
+#calendar2 tbody td {
+    cursor: pointer;
+}
+
+#calendar2 tbody td:nth-child(n+6),
+#calendar2 .holiday {
+    color: rgb(231, 140, 92);
+}
+
+#calendar2 tbody td.today {
+    background: rgb(220, 0, 0);
+    color: #fff;
+}

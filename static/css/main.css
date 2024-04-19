@@ -1,0 +1,38 @@
+body {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    color: white;
+    background: #111827;
+}
+
+.emoji {
+    height: 100px;
+    width: 400px;
+}
+
+.graph-container {
+    width: 48%;
+    min-height: 48vh;
+    height: 50%;
+    background-color: #111827;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.calendar {
+    height: 40%;
+}
