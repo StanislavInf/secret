@@ -28,6 +28,11 @@ python train.py
 python render.py
 ```
 
+5. Запускаем интерактивную симуляцию
+```sh
+python symulation_squares.py
+```
+
 ## Состав команды
 
  - Адиль [гитхаб](https://github.com/LLLida) [телеграмм](https://t.me/AdilMokhammad)
