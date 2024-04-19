@@ -1,9 +1,13 @@
+from datetime import datetime
 import math
 import time
 import random
 from flask import Flask, render_template, Response, request
 from flask_socketio import SocketIO, emit
 
+from train import default_vsm
+
+vsm = default_vsm()
 app = Flask(__name__)
 socketio = SocketIO(app)
 
@@ -33,9 +37,7 @@ def handle_slider_change3(data):
 @socketio.on('date_change')
 def handle_date_change(date):
     print("Выполняется расчёт")
-    print(date['value'])
-
-
+    vsm.jump_to_date(datetime.strptime(date['value'], '%d.%m.%Y'))
 
 
 

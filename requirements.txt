@@ -3,3 +3,4 @@ pandas
 numpy
 flask
 flask_socketio
+openpyxl

@@ -16,51 +16,51 @@
    <div class="menu-sidebar">
       <div class="sidebar-content">
 
-         <button class="close-menu-button">
-            <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
-               <path fill="currentColor"
-                  d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-            </svg>
-         </button>
-         <div class="sliders">
-            <div class="slide-container">
-               <h3></h3>
-               <input type="range" min="0" max="100" value="0" class="slider" id="myRange1">
-               <p>: <span id="demo1"></span></p>
-            </div>
-   
-            <div class="slide-container">
-               <h3></h3>
-               <input type="range" min="0" max="100" value="0" class="slider" id="myRange2">
-               <p>: <span id="demo2"></span></p>
-            </div>
-   
-            <div class="slide-container">
-               <h3></h3>
-               <input type="range" min="0" max="100" value="0" class="slider" id="myRange3">
-               <p>: <span id="demo3"></span></p>
-            </div>
-         </div>
-         
-         <div class="calendar">
-            <table id="calendar2">
-               <thead>
-                  <tr>
-                     <td>‹
-                     <td colspan="5">
-                     <td>›
-                  <tr>
-                     <td>Пн
-                     <td>Вт
-                     <td>Ср
-                     <td>Чт
-                     <td>Пт
-                     <td>Сб
-                     <td>Вс
-               <tbody>
-            </table>
-            <p id="output">:</p>
-         </div>
+	 <button class="close-menu-button">
+	    <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+	       <path fill="currentColor"
+		  d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+	    </svg>
+	 </button>
+	 <div class="sliders">
+	    <div class="slide-container">
+	       <h3></h3>
+	       <input type="range" min="0" max="100" value="0" class="slider" id="myRange1">
+	       <p>: <span id="demo1"></span></p>
+	    </div>
+
+	    <div class="slide-container">
+	       <h3></h3>
+	       <input type="range" min="0" max="100" value="0" class="slider" id="myRange2">
+	       <p>: <span id="demo2"></span></p>
+	    </div>
+
+	    <div class="slide-container">
+	       <h3></h3>
+	       <input type="range" min="0" max="100" value="0" class="slider" id="myRange3">
+	       <p>: <span id="demo3"></span></p>
+	    </div>
+	 </div>
+
+	 <div class="calendar">
+	    <table id="calendar2">
+	       <thead>
+		  <tr>
+		     <td>‹
+		     <td colspan="5">
+		     <td>›
+		  <tr>
+		     <td>Пн
+		     <td>Вт
+		     <td>Ср
+		     <td>Чт
+		     <td>Пт
+		     <td>Сб
+		     <td>Вс
+	       <tbody>
+	    </table>
+	    <p id="output">:</p>
+	 </div>
 
       </div>
 
@@ -68,29 +68,29 @@
 
    <div class="main-page">
       <div class="header">
-         <button class="menu-button">
-            <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
-               <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-            </svg>
-         </button>
+	 <button class="menu-button">
+	    <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+	       <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+	    </svg>
+	 </button>
       </div>
 
       <div class="charts">
-         <div class="graph-container">
-            <canvas id="graph1"></canvas>
-         </div>
-         <div class="graph-container">
-            <canvas id="graph2"></canvas>
-         </div>
-         <div class="graph-container">
-            <canvas id="graph3"></canvas>
-         </div>
+	 <div class="graph-container">
+	    <canvas id="graph1"></canvas>
+	 </div>
+	 <div class="graph-container">
+	    <canvas id="graph2"></canvas>
+	 </div>
+	 <div class="graph-container">
+	    <canvas id="graph3"></canvas>
+	 </div>
       </div>
 
       <!-- <div class="emoji" id="emoji">
-         <h2>&#128512;</h2> -->
+	 <h2>&#128512;</h2> -->
       <!-- <h1>Стрим видео</h1>
-         <img class="video-play" src="{{ url_for('video') }}"> -->
+	 <img class="video-play" src="{{ url_for('video') }}"> -->
       <!-- <img class="video-play" src="{{ url_for('video_feed') }}"> -->
       <!-- </div> -->
 
@@ -100,36 +100,36 @@
 
    <script>
       function changeAlpha(rgbaList, alfa) {
-         return rgbaList.map(rgba => {
-            const [r, g, b, a] = rgba.replace("rgba(", "").split(',').map(c => parseFloat(c));
-            return `rgba(${r}, ${g}, ${b}, ${alfa})`;
-         });
+	 return rgbaList.map(rgba => {
+	    const [r, g, b, a] = rgba.replace("rgba(", "").split(',').map(c => parseFloat(c));
+	    return `rgba(${r}, ${g}, ${b}, ${alfa})`;
+	 });
       }
 
       back_col = ['rgba(242, 186, 75, 0.2)',
-         'rgba(255, 15, 149, 0.2)',
-         'rgba(154, 209, 115, 0.2)',
-         'rgba(54, 32, 69, 0.2)',
-         'rgba(32, 177, 216, 0.2)',
-         'rgba(248, 216, 211, 0.2)',
-         'rgba(236, 255, 69, 0.2)',
-         'rgba(202, 222, 84, 0.2)',
-         'rgba(15, 255, 247, 0.2)',
-         'rgba(127, 161, 65, 0.2)',
-         'rgba(255, 251, 243, 0.2)',
-         'rgba(98, 85, 254, 0.2)',
-         'rgba(189, 4, 33, 0.2)',
-         'rgba(255, 251, 182, 0.2)',
-         'rgba(217, 86, 19, 0.2)',
-         'rgba(242, 212, 141, 0.2)',
-         'rgba(18, 69, 87, 0.2)',
-         'rgba(255, 156, 31, 0.2)',
-         'rgba(26, 186, 169, 0.2)',
-         'rgba(26, 107, 130, 0.2)',
-         'rgba(145, 58, 101, 0.2)',
-         'rgba(38, 155, 176, 0.2)',
-         'rgba(63, 38, 76, 0.2)',
-         'rgba(97, 45, 87, 0.2)'].sort()
+	 'rgba(255, 15, 149, 0.2)',
+	 'rgba(154, 209, 115, 0.2)',
+	 'rgba(54, 32, 69, 0.2)',
+	 'rgba(32, 177, 216, 0.2)',
+	 'rgba(248, 216, 211, 0.2)',
+	 'rgba(236, 255, 69, 0.2)',
+	 'rgba(202, 222, 84, 0.2)',
+	 'rgba(15, 255, 247, 0.2)',
+	 'rgba(127, 161, 65, 0.2)',
+	 'rgba(255, 251, 243, 0.2)',
+	 'rgba(98, 85, 254, 0.2)',
+	 'rgba(189, 4, 33, 0.2)',
+	 'rgba(255, 251, 182, 0.2)',
+	 'rgba(217, 86, 19, 0.2)',
+	 'rgba(242, 212, 141, 0.2)',
+	 'rgba(18, 69, 87, 0.2)',
+	 'rgba(255, 156, 31, 0.2)',
+	 'rgba(26, 186, 169, 0.2)',
+	 'rgba(26, 107, 130, 0.2)',
+	 'rgba(145, 58, 101, 0.2)',
+	 'rgba(38, 155, 176, 0.2)',
+	 'rgba(63, 38, 76, 0.2)',
+	 'rgba(97, 45, 87, 0.2)'].sort()
 
       back_col_border = changeAlpha(back_col, 1.0);
       lab = []
@@ -138,49 +138,49 @@
 
    <script>
       function renderChart(labels, datasets, element_id, back_col, back_col_border) {
-         console.log(datasets)
-         const data = {
-            labels: labels,
-            datasets: [{
-               data: datasets,
-               backgroundColor: back_col,
-               borderColor: back_col_border,
-               borderWidth: 1
-            }]
-         };
-         const config = {
-            type: 'bar',
-            legend: {
-               display: false
-            },
-            data: data,
-            options: {
-               scales: {
-                  y: {
-                     color: '#fff',
-                     beginAtZero: true,
-                     ticks: {
-                        color: '#ffffff'
-                     },
-                     grid: {
-                        color: "rgba(192, 192, 192, 0.2)"
-                     }
-                  },
-                  x: {
-                     color: '#fff',
-                     beginAtZero: true,
-                     ticks: {
-                        color: '#ffffff'
-                     },
-                     grid: {
-                        color: "rgba(192, 192, 192, 0.2)"
-                     }
-                  }
-               }
-            },
-         };
-         var ctx = document.getElementById(element_id).getContext("2d");
-         var line = new Chart(ctx, config);
+	 console.log(datasets)
+	 const data = {
+	    labels: labels,
+	    datasets: [{
+	       data: datasets,
+	       backgroundColor: back_col,
+	       borderColor: back_col_border,
+	       borderWidth: 1
+	    }]
+	 };
+	 const config = {
+	    type: 'bar',
+	    legend: {
+	       display: false
+	    },
+	    data: data,
+	    options: {
+	       scales: {
+		  y: {
+		     color: '#fff',
+		     beginAtZero: true,
+		     ticks: {
+			color: '#ffffff'
+		     },
+		     grid: {
+			color: "rgba(192, 192, 192, 0.2)"
+		     }
+		  },
+		  x: {
+		     color: '#fff',
+		     beginAtZero: true,
+		     ticks: {
+			color: '#ffffff'
+		     },
+		     grid: {
+			color: "rgba(192, 192, 192, 0.2)"
+		     }
+		  }
+	       }
+	    },
+	 };
+	 var ctx = document.getElementById(element_id).getContext("2d");
+	 var line = new Chart(ctx, config);
       }
 
       renderChart(lab, lab, "graph1", back_col, back_col_border)
@@ -199,10 +199,10 @@
       var output1 = document.getElementById("demo1");
       output1.innerHTML = slider1.value;
       slider1.addEventListener('input', function () {
-         output1.innerHTML = this.value;
-         value1 = parseInt(this.value, 10);
-         // render_emoji(this.value, value2, value3)
-         socket.emit('slider_change_1', { value: this.value });
+	 output1.innerHTML = this.value;
+	 value1 = parseInt(this.value, 10);
+	 // render_emoji(this.value, value2, value3)
+	 socket.emit('slider_change_1', { value: this.value });
 
       });
 
@@ -210,30 +210,30 @@
       var output2 = document.getElementById("demo2");
       output2.innerHTML = slider2.value;
       slider2.addEventListener('input', function () {
-         output2.innerHTML = this.value;
-         value2 = parseInt(this.value, 10);
-         // render_emoji(value1, this.value, value3)
-         socket.emit('slider_change_2', { value: this.value });
+	 output2.innerHTML = this.value;
+	 value2 = parseInt(this.value, 10);
+	 // render_emoji(value1, this.value, value3)
+	 socket.emit('slider_change_2', { value: this.value });
       });
 
       var slider3 = document.getElementById("myRange3");
       var output3 = document.getElementById("demo3");
       output3.innerHTML = slider3.value;
       slider3.addEventListener('input', function () {
-         output3.innerHTML = this.value;
-         value3 = parseInt(this.value, 10);
-         // render_emoji(value1, value2, this.value)
-         socket.emit('slider_change_3', { value: this.value });
+	 output3.innerHTML = this.value;
+	 value3 = parseInt(this.value, 10);
+	 // render_emoji(value1, value2, this.value)
+	 socket.emit('slider_change_3', { value: this.value });
       });
       // socket.on('server_response', function (data) {
       //    video.style.filter = `brightness(${data.value}%)`;
       // });
       function render_emoji(v1, v2, v3) {
-         con.innerHTML = "<h2>" + "&#128645;".repeat(
-            parseInt(v1, 10) +
-            parseInt(v2, 10) +
-            parseInt(v3, 10)
-         ) + "</h2>"
+	 con.innerHTML = "<h2>" + "&#128645;".repeat(
+	    parseInt(v1, 10) +
+	    parseInt(v2, 10) +
+	    parseInt(v3, 10)
+	 ) + "</h2>"
       }
 
 
@@ -246,96 +246,96 @@
 
    <script>
       function Calendar2(id, year, month) {
-         var Dlast = new Date(year, month + 1, 0).getDate(),
-            D = new Date(year, month, Dlast),
-            DNlast = new Date(D.getFullYear(), D.getMonth(), Dlast).getDay(),
-            DNfirst = new Date(D.getFullYear(), D.getMonth(), 1).getDay(),
-            calendar = '<tr>',
-            month = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-         if (DNfirst != 0) {
-            for (var i = 1; i < DNfirst; i++) calendar += '<td>';
-         } else {
-            for (var i = 0; i < 6; i++) calendar += '<td>';
-         }
-         for (var i = 1; i <= Dlast; i++) {
-            if (i == new Date().getDate() && D.getFullYear() == new Date().getFullYear() && D.getMonth() == new Date().getMonth()) {
-               calendar += '<td class="today">' + i;
-            } else {
-               calendar += '<td class="day">' + i;
-            }
-            if (new Date(D.getFullYear(), D.getMonth(), i).getDay() == 0) {
-               calendar += '<tr>';
-            }
-         }
-         for (var i = DNlast; i < 7; i++) calendar += '<td>&nbsp;';
-         document.querySelector('#' + id + ' tbody').innerHTML = calendar;
-         document.querySelector('#' + id + ' thead td:nth-child(2)').innerHTML = month[D.getMonth()] + ' ' + D.getFullYear();
-         document.querySelector('#' + id + ' thead td:nth-child(2)').dataset.month = D.getMonth();
-         document.querySelector('#' + id + ' thead td:nth-child(2)').dataset.year = D.getFullYear();
-         // чтобы при перелистывании месяцев не прыгала таблица, добавляется ряд пустых клеток. Итог: всегда 6 строк для цифр
-         if (document.querySelectorAll('#' + id + ' tbody tr').length < 6) {
-            document.querySelector('#' + id + ' tbody').innerHTML += '<tr><td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;';
-         }
-         // выбор дня
-         document.querySelectorAll('#calendar2 tbody td').forEach(el => el.addEventListener("click", function (e) {
+	 var Dlast = new Date(year, month + 1, 0).getDate(),
+	    D = new Date(year, month, Dlast),
+	    DNlast = new Date(D.getFullYear(), D.getMonth(), Dlast).getDay(),
+	    DNfirst = new Date(D.getFullYear(), D.getMonth(), 1).getDay(),
+	    calendar = '<tr>',
+	    month = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+	 if (DNfirst != 0) {
+	    for (var i = 1; i < DNfirst; i++) calendar += '<td>';
+	 } else {
+	    for (var i = 0; i < 6; i++) calendar += '<td>';
+	 }
+	 for (var i = 1; i <= Dlast; i++) {
+	    if (i == new Date().getDate() && D.getFullYear() == new Date().getFullYear() && D.getMonth() == new Date().getMonth()) {
+	       calendar += '<td class="today">' + i;
+	    } else {
+	       calendar += '<td class="day">' + i;
+	    }
+	    if (new Date(D.getFullYear(), D.getMonth(), i).getDay() == 0) {
+	       calendar += '<tr>';
+	    }
+	 }
+	 for (var i = DNlast; i < 7; i++) calendar += '<td>&nbsp;';
+	 document.querySelector('#' + id + ' tbody').innerHTML = calendar;
+	 document.querySelector('#' + id + ' thead td:nth-child(2)').innerHTML = month[D.getMonth()] + ' ' + D.getFullYear();
+	 document.querySelector('#' + id + ' thead td:nth-child(2)').dataset.month = D.getMonth();
+	 document.querySelector('#' + id + ' thead td:nth-child(2)').dataset.year = D.getFullYear();
+	 // чтобы при перелистывании месяцев не прыгала таблица, добавляется ряд пустых клеток. Итог: всегда 6 строк для цифр
+	 if (document.querySelectorAll('#' + id + ' tbody tr').length < 6) {
+	    document.querySelector('#' + id + ' tbody').innerHTML += '<tr><td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;';
+	 }
+	 // выбор дня
+	 document.querySelectorAll('#calendar2 tbody td').forEach(el => el.addEventListener("click", function (e) {
 
-            // переменные для формирования даты
-            var day = el.innerText;
-            var month = document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month;
-            var year = document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year;
-            month++;
+	    // переменные для формирования даты
+	    var day = el.innerText;
+	    var month = document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month;
+	    var year = document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year;
+	    month++;
 
-            // если день менее/равно 9, то добавляем вперёд ноль
-            if (day < 9) {
-               day = "0" + day;
-            }
-            // если месяц менее/равно 9, то добавляем вперёд ноль
-            if (month < 9) {
-               month = "0" + month;
-            }
-            // формирование даты
-            ddate = day + "." + month + "." + year;
-            document.getElementById("output").innerHTML = ddate;
-            socket.emit('date_change', { value: ddate });
+	    // если день менее/равно 9, то добавляем вперёд ноль
+	    if (day < 9) {
+	       day = "0" + day;
+	    }
+	    // если месяц менее/равно 9, то добавляем вперёд ноль
+	    if (month < 9) {
+	       month = "0" + month;
+	    }
+	    // формирование даты
+	    ddate = day + "." + month + "." + year;
+	    document.getElementById("output").innerHTML = ddate;
+	    socket.emit('date_change', { value: ddate });
 
-            // отключаем выделение предыдущего дня
-            if (localStorage.getItem('1') != "") {
-               back_day = localStorage.getItem('1');
-               var aTags = document.querySelectorAll('#calendar2 tbody td');
-               for (var i = 0; i < aTags.length; i++) {
-                  if (aTags[i].innerText == back_day) {
-                     if (aTags[i].className == 'today') {
-                        aTags[i].style.borderColor = "";
-                     } else {
-                        aTags[i].style.backgroundColor = "";
-                     }
-                     break;
-                  }
-               }
-            }
-            // кладём переменную предыдущего выделенного дня в локальное хранилище
-            var back_day = this.innerText
-            localStorage.setItem("1", back_day);
+	    // отключаем выделение предыдущего дня
+	    if (localStorage.getItem('1') != "") {
+	       back_day = localStorage.getItem('1');
+	       var aTags = document.querySelectorAll('#calendar2 tbody td');
+	       for (var i = 0; i < aTags.length; i++) {
+		  if (aTags[i].innerText == back_day) {
+		     if (aTags[i].className == 'today') {
+			aTags[i].style.borderColor = "";
+		     } else {
+			aTags[i].style.backgroundColor = "";
+		     }
+		     break;
+		  }
+	       }
+	    }
+	    // кладём переменную предыдущего выделенного дня в локальное хранилище
+	    var back_day = this.innerText
+	    localStorage.setItem("1", back_day);
 
-            // если выбранная ячейка имеет класс Сегодня, то красим бордюр в синий
-            if (el.className == 'today') {
-               this.style.borderColor = "blue";
-            }
-            // если выбранная ячейка имеет класс день, то заливаем её светло-голубым
-            else if (el.className == 'day') {
-               this.style.backgroundColor = "SkyBlue";
-            }
-         }));
+	    // если выбранная ячейка имеет класс Сегодня, то красим бордюр в синий
+	    if (el.className == 'today') {
+	       this.style.borderColor = "blue";
+	    }
+	    // если выбранная ячейка имеет класс день, то заливаем её светло-голубым
+	    else if (el.className == 'day') {
+	       this.style.backgroundColor = "SkyBlue";
+	    }
+	 }));
       }
       Calendar2("calendar2", new Date().getFullYear(), new Date().getMonth());
 
       // переключатель минус месяц
       document.querySelector('#calendar2 thead tr:nth-child(1) td:nth-child(1)').onclick = function () {
-         Calendar2("calendar2", document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month) - 1);
+	 Calendar2("calendar2", document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month) - 1);
       }
       // переключатель плюс месяц
       document.querySelector('#calendar2 thead tr:nth-child(1) td:nth-child(3)').onclick = function () {
-         Calendar2("calendar2", document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month) + 1);
+	 Calendar2("calendar2", document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month) + 1);
       }
 
    </script>
