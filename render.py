@@ -1,13 +1,11 @@
 import math
 import time
 import random
-import cv2 
 from flask import Flask, render_template, Response, request
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-sub = cv2.createBackgroundSubtractorMOG2() 
 
 slider =  {1:0,
            2:0,
@@ -60,4 +58,3 @@ def video():
 
 if __name__ == '__main__':
     socketio.run(app)
-

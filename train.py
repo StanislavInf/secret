@@ -165,21 +165,22 @@ passengers_for_months = [
     16319                       # dec
 ]
 
-vsm = VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, passenger_distribution_per_hour=passenger_distribution_per_hour, passengers_for_months=passengers_for_months, options={
-    'tuda_syuda_distance': 1400,
-    'tuda_syuda_hours': 7,
-    'cycles': cycles
-})
+if __name__ == '__main__':
+    vsm = VSM_Station(num_trains=33, max_repair_at_time=8, train_capacity=450, passenger_distribution_per_hour=passenger_distribution_per_hour, passengers_for_months=passengers_for_months, options={
+        'tuda_syuda_distance': 1400,
+        'tuda_syuda_hours': 7,
+        'cycles': cycles
+    })
 
-vsm.jump_to_date(datetime.strptime('2024-05-17', '%Y-%m-%d'))
+    vsm.jump_to_date(datetime.strptime('2024-05-17', '%Y-%m-%d'))
 
-print('  Num running        Num waiting        Num repairing')
-for i in range(9600):
+    print('  Num running        Num waiting        Num repairing')
+    for i in range(9600):
 
 
-    run, wait, repair = vsm.step_hour()
+        run, wait, repair = vsm.step_hour()
 
-    if i % 1 == 0:
-        print(f'{vsm.hour:4d} {run:5d}              {wait:5d}               {repair:5d}')
+        if i % 1 == 0:
+            print(f'{vsm.hour:4d} {run:5d}              {wait:5d}               {repair:5d}')
 
-vsm.save_history('history.xlsx', origin_time)
+    vsm.save_history('history.xlsx', origin_time)
